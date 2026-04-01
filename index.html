@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tap Match Escape — Color-Match Arcade on iOS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --coral: #ff6b6b;
+            --sun: #ffd93d;
+            --mint: #6bcb77;
+            --sky: #4d96ff;
+            --grape: #a855f7;
+            --ink: #1a1523;
+            --cream: #fff8f0;
+            --muted: #5c5568;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Nunito", -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--ink);
+            min-height: 100vh;
+            background:
+                radial-gradient(ellipse 90% 60% at 10% 0%, rgba(255, 107, 107, 0.35), transparent 50%),
+                radial-gradient(ellipse 70% 50% at 95% 20%, rgba(168, 85, 247, 0.28), transparent 45%),
+                radial-gradient(ellipse 80% 55% at 50% 100%, rgba(77, 150, 255, 0.25), transparent 50%),
+                linear-gradient(165deg, #ffeef6 0%, #fff5e6 35%, #e8f8ff 100%);
+            padding: 24px 16px 48px;
+            overflow-x: hidden;
+        }
+
+        .blobs {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(48px);
+            opacity: 0.45;
+            animation: drift 18s ease-in-out infinite;
+        }
+
+        .blob:nth-child(1) {
+            width: 280px;
+            height: 280px;
+            background: var(--sun);
+            top: 8%;
+            left: -5%;
+            animation-delay: 0s;
+        }
+
+        .blob:nth-child(2) {
+            width: 220px;
+            height: 220px;
+            background: var(--mint);
+            bottom: 15%;
+            right: -3%;
+            animation-delay: -6s;
+        }
+
+        .blob:nth-child(3) {
+            width: 200px;
+            height: 200px;
+            background: var(--sky);
+            top: 45%;
+            right: 15%;
+            animation-delay: -12s;
+        }
+
+        @keyframes drift {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(20px, -25px) scale(1.05); }
+            66% { transform: translate(-15px, 15px) scale(0.95); }
+        }
+
+        .wrap {
+            max-width: 920px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 40px 28px 32px;
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            border: 3px solid rgba(255, 255, 255, 0.95);
+            box-shadow:
+                0 4px 0 rgba(255, 107, 107, 0.35),
+                0 20px 50px rgba(26, 21, 35, 0.12);
+        }
+
+        .tagline {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: "Fredoka", sans-serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--coral);
+            margin-bottom: 14px;
+        }
+
+        .tagline span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--sun);
+            box-shadow: 14px 0 0 var(--mint), 28px 0 0 var(--sky);
+        }
+
+        h1 {
+            font-family: "Fredoka", sans-serif;
+            font-weight: 700;
+            font-size: clamp(2rem, 5vw, 3rem);
+            line-height: 1.15;
+            color: var(--ink);
+            margin-bottom: 12px;
+        }
+
+        h1 em {
+            font-style: normal;
+            background: linear-gradient(120deg, var(--coral), var(--grape));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .lead {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--sky);
+            margin-bottom: 16px;
+        }
+
+        .blurb {
+            max-width: 640px;
+            margin: 0 auto;
+            color: var(--muted);
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+
+        .chips {
+            margin-top: 22px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .chip {
+            font-family: "Fredoka", sans-serif;
+            font-weight: 500;
+            font-size: 0.9rem;
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: #fff;
+            border: 2px solid var(--ink);
+            box-shadow: 3px 3px 0 var(--ink);
+        }
+
+        .chip:nth-child(1) { border-color: var(--coral); box-shadow: 3px 3px 0 var(--coral); }
+        .chip:nth-child(2) { border-color: var(--sun); box-shadow: 3px 3px 0 var(--sun); }
+        .chip:nth-child(3) { border-color: var(--mint); box-shadow: 3px 3px 0 var(--mint); }
+        .chip:nth-child(4) { border-color: var(--sky); box-shadow: 3px 3px 0 var(--sky); }
+
+        .how {
+            margin-top: 28px;
+            display: grid;
+            gap: 14px;
+            text-align: left;
+        }
+
+        @media (min-width: 700px) {
+            .how {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .step-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 20px 20px 18px;
+            border: 3px solid var(--ink);
+            box-shadow: 6px 6px 0 rgba(26, 21, 35, 0.12);
+        }
+
+        .step-card h2 {
+            font-family: "Fredoka", sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .step-card h2 .num {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+            color: #fff;
+        }
+
+        .step-card:nth-child(1) .num { background: var(--coral); }
+        .step-card:nth-child(2) .num { background: var(--sky); }
+        .step-card:nth-child(3) .num { background: var(--mint); }
+        .step-card:nth-child(4) .num { background: var(--grape); }
+
+        .step-card p, .step-card li {
+            color: var(--muted);
+            line-height: 1.6;
+            font-size: 0.98rem;
+        }
+
+        .step-card ul {
+            list-style: none;
+            margin-top: 8px;
+        }
+
+        .step-card li {
+            padding-left: 18px;
+            position: relative;
+            margin-bottom: 6px;
+        }
+
+        .step-card li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.55em;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--sun);
+        }
+
+        .themes {
+            margin-top: 24px;
+            padding: 26px 22px;
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.12), rgba(77, 150, 255, 0.12));
+            border-radius: 22px;
+            border: 3px dashed rgba(26, 21, 35, 0.2);
+        }
+
+        .themes h2 {
+            font-family: "Fredoka", sans-serif;
+            font-size: 1.35rem;
+            text-align: center;
+            margin-bottom: 16px;
+            color: var(--ink);
+        }
+
+        .theme-grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        @media (min-width: 600px) {
+            .theme-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .theme-pill {
+            background: #fff;
+            border-radius: 16px;
+            padding: 14px 14px 12px;
+            border: 2px solid var(--ink);
+            text-align: center;
+        }
+
+        .theme-pill strong {
+            font-family: "Fredoka", sans-serif;
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+
+        .theme-pill span {
+            font-size: 0.88rem;
+            color: var(--muted);
+            line-height: 1.45;
+        }
+
+        .powers {
+            margin-top: 22px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .power {
+            font-family: "Fredoka", sans-serif;
+            font-weight: 600;
+            padding: 12px 18px;
+            border-radius: 14px;
+            background: var(--sun);
+            border: 3px solid var(--ink);
+            box-shadow: 4px 4px 0 var(--ink);
+            font-size: 0.95rem;
+        }
+
+        .power:last-child {
+            background: var(--mint);
+        }
+
+        .cta-row {
+            margin-top: 28px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 14px;
+        }
+
+        .btn {
+            text-decoration: none;
+            font-family: "Fredoka", sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 14px 26px;
+            border-radius: 16px;
+            border: 3px solid var(--ink);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .btn:active {
+            transform: translate(2px, 2px);
+        }
+
+        .btn-store {
+            background: linear-gradient(180deg, #5ac8fa, var(--sky));
+            color: #fff;
+            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.15);
+            box-shadow: 6px 6px 0 var(--ink);
+        }
+
+        .btn-store:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 8px 8px 0 var(--ink);
+        }
+
+        .btn-privacy {
+            background: #fff;
+            color: var(--ink);
+            box-shadow: 4px 4px 0 var(--grape);
+        }
+
+        .btn-privacy:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0 var(--grape);
+        }
+
+        .foot {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+
+        .foot a {
+            color: var(--coral);
+            font-weight: 700;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="blobs" aria-hidden="true">
+        <div class="blob"></div>
+        <div class="blob"></div>
+        <div class="blob"></div>
+    </div>
+
+    <main class="wrap">
+        <section class="hero">
+            <p class="tagline"><span></span> One-tap color chaos</p>
+            <h1><em>Tap Match Escape</em></h1>
+            <p class="lead">Match colors, dodge obstacles, and escape through themed levels.</p>
+            <p class="blurb">
+                Tap Match Escape is a fast-paced casual game for iPhone and iPad where timing and color matching keep you alive.
+                Your character moves on its own—you tap to switch colors and slip through matching gates. Wrong color or bad timing, and it is game over.
+                Simple controls, escalating challenge, and power-ups when you need a breather.
+            </p>
+
+            <div class="chips">
+                <span class="chip">Free to play</span>
+                <span class="chip">iOS 15+</span>
+                <span class="chip">English</span>
+                <span class="chip">Ages 4+</span>
+            </div>
+
+            <div class="how">
+                <article class="step-card">
+                    <h2><span class="num">1</span> How it plays</h2>
+                    <ul>
+                        <li>Your object moves automatically along the path.</li>
+                        <li>Colored obstacles appear ahead—watch the pattern.</li>
+                        <li>Tap the screen to change your object’s color.</li>
+                        <li>Match the obstacle color to pass through safely.</li>
+                        <li>Wrong color or mistimed tap ends the run.</li>
+                    </ul>
+                </article>
+                <article class="step-card">
+                    <h2><span class="num">2</span> Why it hooks you</h2>
+                    <p>
+                        Levels ramp up with trickier sequences so every successful escape feels earned.
+                        Smooth motion, satisfying taps, and distinct worlds keep runs fresh whether you play for one minute or twenty.
+                    </p>
+                </article>
+            </div>
+
+            <section class="themes">
+                <h2>Themed worlds</h2>
+                <div class="theme-grid">
+                    <div class="theme-pill">
+                        <strong>Space</strong>
+                        <span>Futuristic vibes as you weave through cosmic lanes.</span>
+                    </div>
+                    <div class="theme-pill">
+                        <strong>Greenery</strong>
+                        <span>Flow like a water drop through lush, organic courses.</span>
+                    </div>
+                    <div class="theme-pill">
+                        <strong>Snooker</strong>
+                        <span>Roll as a ball on slick, table-inspired tracks.</span>
+                    </div>
+                </div>
+                <p class="blurb" style="margin-top: 14px; font-size: 0.95rem;">
+                    More themes unlock as you progress—each with its own look and feel.
+                </p>
+            </section>
+
+            <div class="powers">
+                <span class="power">Multicolor mode — pass any gate</span>
+                <span class="power">Slow motion — precision when it counts</span>
+            </div>
+
+            <div class="cta-row">
+                <a class="btn btn-store" href="https://apps.apple.com/us/app/tap-match-escape/id6761428687?uo=4" target="_blank" rel="noopener noreferrer">Download on the App Store</a>
+                <a class="btn btn-privacy" href="privacy.html">Privacy policy</a>
+            </div>
+
+            <p class="foot">© Tap Match Escape. <a href="https://apps.apple.com/us/app/tap-match-escape/id6761428687?uo=4" target="_blank" rel="noopener noreferrer">View listing</a></p>
+        </section>
+    </main>
+</body>
+</html>

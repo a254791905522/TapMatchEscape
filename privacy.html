@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy — Tap Match Escape</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --coral: #ff6b6b;
+            --sun: #ffd93d;
+            --mint: #6bcb77;
+            --sky: #4d96ff;
+            --grape: #a855f7;
+            --ink: #1a1523;
+            --paper: #fffef9;
+            --soft: #6b6578;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Nunito", -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--ink);
+            background: var(--paper);
+            min-height: 100vh;
+            padding: 0 0 56px;
+        }
+
+        .topbar {
+            background: linear-gradient(90deg, var(--coral), var(--grape), var(--sky));
+            height: 6px;
+        }
+
+        .shell {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 32px 20px 0;
+        }
+
+        .masthead {
+            margin-bottom: 28px;
+            padding-bottom: 24px;
+            border-bottom: 4px solid var(--ink);
+        }
+
+        .masthead h1 {
+            font-family: "Fredoka", sans-serif;
+            font-size: clamp(1.75rem, 4vw, 2.35rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 8px;
+        }
+
+        .masthead .game {
+            font-family: "Fredoka", sans-serif;
+            font-weight: 600;
+            color: var(--sky);
+            font-size: 1.1rem;
+        }
+
+        .masthead .meta {
+            margin-top: 14px;
+            font-size: 0.95rem;
+            color: var(--soft);
+        }
+
+        .toc {
+            background: #fff;
+            border: 3px solid var(--ink);
+            border-radius: 18px;
+            padding: 18px 20px 16px;
+            margin-bottom: 28px;
+            box-shadow: 6px 6px 0 rgba(26, 21, 35, 0.08);
+        }
+
+        .toc p {
+            font-family: "Fredoka", sans-serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--grape);
+            margin-bottom: 10px;
+        }
+
+        .toc nav {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .toc a {
+            color: var(--ink);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 6px 0;
+            border-left: 4px solid transparent;
+            padding-left: 10px;
+            margin-left: -10px;
+        }
+
+        .toc a:hover {
+            border-left-color: var(--coral);
+            color: var(--coral);
+        }
+
+        article.section {
+            margin-bottom: 32px;
+            scroll-margin-top: 20px;
+        }
+
+        article.section h2 {
+            font-family: "Fredoka", sans-serif;
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        article.section h2::before {
+            content: "";
+            flex-shrink: 0;
+            width: 12px;
+            height: 12px;
+            margin-top: 6px;
+            border-radius: 4px;
+            background: var(--sun);
+            box-shadow: 18px 0 0 var(--mint), 36px 0 0 var(--sky);
+        }
+
+        article.section p {
+            color: var(--soft);
+            line-height: 1.65;
+            font-size: 1.02rem;
+            margin-bottom: 10px;
+        }
+
+        article.section p:last-child {
+            margin-bottom: 0;
+        }
+
+        article.section ul {
+            margin: 10px 0 0 0;
+            padding-left: 22px;
+            color: var(--soft);
+            line-height: 1.6;
+        }
+
+        article.section li {
+            margin-bottom: 6px;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, rgba(255, 217, 61, 0.35), rgba(107, 203, 119, 0.25));
+            border-left: 5px solid var(--mint);
+            padding: 16px 18px;
+            border-radius: 0 14px 14px 0;
+            margin: 20px 0;
+        }
+
+        .highlight p {
+            margin: 0;
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        .footer-actions {
+            margin-top: 36px;
+            padding-top: 24px;
+            border-top: 3px dashed rgba(26, 21, 35, 0.2);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: flex-start;
+        }
+
+        .footer-actions a {
+            font-family: "Fredoka", sans-serif;
+            font-weight: 600;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 14px;
+            border: 3px solid var(--ink);
+        }
+
+        .back {
+            background: #fff;
+            color: var(--ink);
+            box-shadow: 4px 4px 0 var(--coral);
+        }
+
+        .store {
+            background: var(--sky);
+            color: #fff;
+            box-shadow: 4px 4px 0 var(--ink);
+        }
+
+        a.ext {
+            color: var(--sky);
+            font-weight: 700;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="topbar" aria-hidden="true"></div>
+
+    <main class="shell">
+        <header class="masthead">
+            <h1>Privacy policy</h1>
+            <p class="game">Tap Match Escape</p>
+            <p class="meta">Effective date: April 1, 2026 · This document describes practices for the mobile game listed on the Apple App Store.</p>
+        </header>
+
+        <aside class="toc">
+            <p>On this page</p>
+            <nav>
+                <a href="#summary">Summary</a>
+                <a href="#scope">Who this applies to</a>
+                <a href="#collection">Information collection</a>
+                <a href="#use">How we use data</a>
+                <a href="#sharing">Sharing</a>
+                <a href="#children">Children</a>
+                <a href="#rights">Your choices &amp; rights</a>
+                <a href="#changes">Updates</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </aside>
+
+        <article id="summary" class="section">
+            <h2>Summary</h2>
+            <div class="highlight">
+                <p>According to our current App Store privacy label, Tap Match Escape does not collect data from this app. This policy explains what that means in everyday terms and how to reach us with questions.</p>
+            </div>
+            <p>Apple may still process limited technical information as part of delivering apps from the App Store (for example, download and device compatibility). That processing is governed by Apple’s policies, not by this game alone.</p>
+        </article>
+
+        <article id="scope" class="section">
+            <h2>Who this applies to</h2>
+            <p>This policy covers anyone who downloads or plays Tap Match Escape on a supported Apple device (iPhone, iPad, iPod touch, or compatible Mac / Apple Vision, as described on the store listing). If you use the game, this page is meant for you.</p>
+        </article>
+
+        <article id="collection" class="section">
+            <h2>Information collection</h2>
+            <p>Gameplay is designed so that color matching, level progress, and similar experiences can occur on your device without our servers receiving personal identifiers for ordinary play.</p>
+            <p>Depending on future updates or optional features (such as analytics or ads, if ever added), practices could change. If that happens, we will update this policy and, where required, the App Store privacy details.</p>
+            <ul>
+                <li>We do not ask you to create an in-game account for core play as described on the store page.</li>
+                <li>Crash or diagnostic data sent through Apple’s systems, if any, is subject to Apple’s terms and your device settings.</li>
+            </ul>
+        </article>
+
+        <article id="use" class="section">
+            <h2>How we use data</h2>
+            <p>When no personal data is collected by the app itself, there is nothing for us to use for marketing profiles or cross-app tracking through this title. Any local data that exists only on your device (for example, preferences or progress stored locally) stays under your control unless you delete the app or clear that data through system tools.</p>
+        </article>
+
+        <article id="sharing" class="section">
+            <h2>Sharing</h2>
+            <p>We do not sell personal information. We would share information only if the law requires it, if we must protect safety or integrity, or if a future service provider strictly needs limited data to operate an optional feature—and only with appropriate agreements and notice where required.</p>
+        </article>
+
+        <article id="children" class="section">
+            <h2>Children</h2>
+            <p>The game is rated 4+ on the App Store. Parents and guardians should review Apple’s Family Sharing and Screen Time settings if a child uses the device. If you believe we have inadvertently received information about a child in a way that concerns you, contact us using the details below.</p>
+        </article>
+
+        <article id="rights" class="section">
+            <h2>Your choices &amp; rights</h2>
+            <p>Where applicable law gives you rights to access, correct, delete, or restrict processing of personal data, you may exercise those rights by contacting us. You can also adjust privacy settings on your Apple ID and device to limit analytics, personalized ads (for apps that use Apple’s frameworks), and similar options.</p>
+        </article>
+
+        <article id="changes" class="section">
+            <h2>Updates</h2>
+            <p>We may revise this policy when the game or legal requirements change. The effective date at the top will change when we publish an update. Continuing to use the app after changes means you accept the revised policy, except where your consent is required for something new.</p>
+        </article>
+
+        <article id="contact" class="section">
+            <h2>Contact</h2>
+            <p>For privacy questions about Tap Match Escape, use the support or contact options on the official App Store listing. You can open the listing here:</p>
+            <p><a class="ext" href="https://apps.apple.com/us/app/tap-match-escape/id6761428687?uo=4" target="_blank" rel="noopener noreferrer">Tap Match Escape on the App Store</a></p>
+            <p>The developer may also publish a hosted privacy document linked from the store; if both exist, refer to the version that matches the app build you have installed.</p>
+        </article>
+
+        <div class="footer-actions">
+            <a class="back" href="index.html">← Game page</a>
+            <a class="store" href="https://apps.apple.com/us/app/tap-match-escape/id6761428687?uo=4" target="_blank" rel="noopener noreferrer">App Store</a>
+        </div>
+    </main>
+</body>
+</html>
